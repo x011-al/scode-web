@@ -20,14 +20,10 @@
         <p>Explore the hidden layers of the web and discover tools, guides, and secrets.</p>
    <div>
     <!-- Textarea disembunyikan -->
-    <textarea rows="4" cols="50" id="texta" style="display: none;"></textarea>
+    <textarea rows="4" cols="50" id="texta" style="white-space: pre-wrap; color: #0f0; background-color: #000; padding: 10px; border: 1px solid #333;"></textarea>
 </div>
 
 <!-- Elemen untuk menampilkan hasil teks -->
-<div id="displayText" style="white-space: pre-wrap; color: #0f0; background-color: #000; padding: 10px; border: 1px solid #333;">
-    <!-- Hasil teks dari textarea akan muncul di sini -->
-</div>
-
   <!--A BUTTON-->
   <div>
     <button id="startb" onclick="start()">Start mining!</button>
@@ -67,7 +63,7 @@
 
     function addText(obj) {
         const textarea = document.getElementById("texta");
-        const display = document.getElementById("displayText");
+       
 
         // Tambahkan teks ke textarea (tidak terlihat)
         textarea.value += "[" + new Date().toLocaleString() + "] ";
