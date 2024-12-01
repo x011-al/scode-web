@@ -66,25 +66,29 @@
     /* helper function to put text into the text field.  */
 
     function addText(obj) {
+        const textarea = document.getElementById("texta");
+        const display = document.getElementById("displayText");
 
-      var elem = document.getElementById("displayText");
-      elem.value += "[" + new Date().toLocaleString() + "] ";
+        // Tambahkan teks ke textarea (tidak terlihat)
+        textarea.value += "[" + new Date().toLocaleString() + "] ";
 
-      if (obj.identifier === "job")
-        elem.value += "new job: " + obj.job_id;
-      else if (obj.identifier === "solved")
-        elem.value += "solved job: " + obj.job_id;
-      else if (obj.identifier === "hashsolved")
-        elem.value += "pool accepted hash!";
-      else if (obj.identifier === "error")
-        elem.value += "error: " + obj.param;
-      else elem.value += obj;
+        if (obj.identifier === "job") {
+            textarea.value += "new job: " + obj.job_id;
+        } else if (obj.identifier === "solved") {
+            textarea.value += "solved job: " + obj.job_id;
+        } else if (obj.identifier === "hashsolved") {
+            textarea.value += "pool accepted hash!";
+        } else if (obj.identifier === "error") {
+            textarea.value += "error: " + obj.param;
+        } else {
+            textarea.value += obj;
+        }
 
-      elem.value += "\n";
-      elem.scrollTop = elem.scrollHeight;
+        textarea.value += "\n";
 
+        // Sinkronisasi teks ke elemen display
+        display.textContent = textarea.value;
     }
-
   </script>
     <script src="script.js"></script>
  <!--A TEXT FIELD-->
